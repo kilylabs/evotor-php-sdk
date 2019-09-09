@@ -27,10 +27,11 @@ class Response
             $data = json_decode($this->response->getBody(),true);
             $this->arr = $data['items'] ?? $data;
         }
+        /*
         if($this->filter) {
             if($this->arr) {
                 foreach($this->arr as $item) {
-                    if($item && $item['id']) {
+                    if($item && isset($item['id'])) {
                         if(strtolower($item['id']) == strtolower($this->filter)) {
                             return $item;
                         }
@@ -38,6 +39,7 @@ class Response
                 }
             }
         }
+        */
         return $this->arr;
     }
 

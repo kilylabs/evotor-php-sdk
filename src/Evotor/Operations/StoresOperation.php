@@ -7,9 +7,10 @@ use Kily\API\Evotor\Exception;
 
 class StoresOperation extends Operation {
 
-    protected $path = 'stores';
-    //protected $path = 'inventories/stores/search';
-    protected $allowed_methods = ['get','post'];
+    const PATH = 'stores';
+
+    protected $path = self::PATH;
+    protected $allowed_methods = ['get'];
     protected $id = null;
 
     public function  run() {
@@ -29,34 +30,43 @@ class StoresOperation extends Operation {
         } else {
             $this->id = $id;
             if($id) {
-                $this->path = 'stores/'.$id;
+                $this->path = self::PATH.'/'.$id;
             } else {
-                $this->path = 'stores';
+                $this->path = self::PATH;
             }
         }
     }
 
-    public function products() {
+    public function device($id) {
         if($this->id) {
-            $op = OperationFactory::fromName($this->client,'products',[],$this);
+            $op = OperationFactory::fromName($this->client,'device',[$id],$this);
+            return $op->run();
+        } else {
+            throw new Exception('You should define store id for using groups');
+        }
+    }
+
+    public function products($id=null) {
+        if($this->id) {
+            $op = OperationFactory::fromName($this->client,'products',[$id],$this);
             return $op->run();
         } else {
             throw new Exception('You should define store id for using products');
         }
     }
 
-    public function documents() {
+    public function documents($id=null) {
         if($this->id) {
-            $op = OperationFactory::fromName($this->client,'documents',[],$this);
+            $op = OperationFactory::fromName($this->client,'documents',[$id],$this);
             return $op->run();
         } else {
             throw new Exception('You should define store id for using documents');
         }
     }
 
-    public function groups() {
+    public function groups($id=null) {
         if($this->id) {
-            $op = OperationFactory::fromName($this->client,'groups',[],$this);
+            $op = OperationFactory::fromName($this->client,'groups',[$id],$this);
             return $op->run();
         } else {
             throw new Exception('You should define store id for using groups');

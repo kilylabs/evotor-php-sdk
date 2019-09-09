@@ -7,23 +7,35 @@ use Kily\API\Evotor\Exception;
 
 class GroupsOperation extends Operation {
 
-    protected $path = 'stores/{store_id}/product-groups';
-    protected $allowed_methods = ['get','post','bulk'];
+    const PATH = 'stores/{store_id}/product-groups';
+
+    protected $path = self::PATH;
+    protected $allowed_methods = ['get','put','post','delete'];
     protected $id = null;
 
     public function  run() {
-        if(!$this->prev_operation) {
-            throw new Exception('You must define store to manipulate products from');
-        }
         return $this;
     }
 
     protected function init($args) {
-        if($this->prev_operation) {
-            $this->path = str_replace('{store_id}',$this->prev_operation->id(),$this->path);
+        if($this->prev_operation instanceof StoresOperation) {
+            $id = $args[0] ?? null;
+            $this->id($id);
         } else {
             throw new Exception('Unable to get prev operation');
         }
     }
 
+    public function id($id=false) {
+        if($id === false) {
+            return $this->id;
+        } else {
+            $this->id = $id;
+            if($id) {
+                $this->path = str_replace('{store_id}',$this->prev_operation->id(),self::PATH).'/'.$id;
+            } else {
+                $this->path = str_replace('{store_id}',$this->prev_operation->id(),self::PATH);
+            }
+        }
+    }
 }
