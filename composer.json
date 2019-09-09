@@ -1,0 +1,22 @@
+{
+    "name": "kilylabs/evotor-php-sdk",
+    "description": "Evotor PHP SDK",
+    "keywords": ["evotor", "php", "api" ,"sdk"],
+    "type": "library",
+    "license": "MIT",
+	"autoload": {
+		"psr-4": {"Kily\\API\\Evotor\\": "src/Evotor"}
+	},
+	"autoload-dev": {
+		"psr-4": {"Kily\\API\\Evotor\\Evotor\\": "tests/Evotor/Tests"}
+	},
+    "authors": [
+        {
+            "name": "Alexander Bogdanov",
+            "email": "ab@dev.kily.ru"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    }
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/Bootstrap.php"
+    colors="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    >
+    <php>
+        <!-- API KEY -->
+        <!--<server name="API_KEY" value="ololo" />-->
+        <!-- APP KEY -->
+        <!--<server name="APP_KEY" value="ololo" />-->
+        <!-- This will allow CREATE, UPDATE and DELETE operations. USE WITH CAUTION!!! -->
+        <!--<server name="ALLOW_UNSAFE_OPERATIONS" value="true" />-->
+        <!-- This wil allow guzzle debug -->
+        <!--<server name="DEBUG" value="true" />-->
+    </php>
+    <testsuites>
+        <testsuite name="maintests">
+            <directory>tests/Evotor</directory>
+        </testsuite>
+    </testsuites>
+
+
+</phpunit>
