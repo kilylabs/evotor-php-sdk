@@ -42,10 +42,12 @@ class Request
 
     public function request() {
         $data = [];
-        if($this->type == 'form_data') {
-            $data['form_data'] = $this->data;
-        } else {
-            $data['body'] = json_encode($this->data);
+        if($this->data !== null) {
+            if($this->type == 'form_data') {
+                $data['form_data'] = $this->data;
+            } else {
+                $data['body'] = json_encode($this->data);
+            }
         }
         if($this->options) {
             $data = array_replace_recursive($this->options,$data);

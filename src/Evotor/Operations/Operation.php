@@ -15,7 +15,7 @@ class Operation implements OperationInterface {
 
     protected $path;
     protected $path_parts = [];
-    protected $data = [];
+    protected $data = null;
     protected $type;
     protected $request_options = [];
     protected $prev_operation = null;
