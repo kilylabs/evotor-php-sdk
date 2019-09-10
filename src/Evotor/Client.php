@@ -29,7 +29,7 @@ class Client
 
     protected $is_called = false;
 
-    public function __construct($api_key,$app_key,$options=[]) {
+    public function __construct($api_key,$app_key='',$options=[]) {
         $this->api_key = $api_key;
         $this->app_key = $app_key;
         $this->client = new Guzzle(array_replace_recursive([
@@ -111,7 +111,7 @@ class Client
     }
 
     public function isOk() {
-        return $this->http_code == 200;
+        return strpos((string)$this->http_code,'2') === 0;
     }
 
     public function getAppKey() {
