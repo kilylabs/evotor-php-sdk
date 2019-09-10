@@ -17,7 +17,7 @@ class GroupsOperationTest extends TestCase
             $this->clnt,
             'groups',
             [],
-            $this->createMock(\Kily\API\Evotor\Operations\Operation::class)
+            $this->createMock(\Kily\API\Evotor\Operations\StoresOperation::class)
         );
     }
 
@@ -34,6 +34,18 @@ class GroupsOperationTest extends TestCase
             'groups',
             [],
             null
+        );
+        $this->groupsOperation->run();
+    }
+
+    public function testException2()
+    {
+        $this->expectException(Exception::class);
+        $this->groupsOperation = new GroupsOperation(
+            $this->clnt,
+            'groups',
+            [],
+            $this->createMock(\Kily\API\Evotor\Operations\Operation::class)
         );
         $this->groupsOperation->run();
     }

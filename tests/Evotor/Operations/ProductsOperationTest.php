@@ -17,7 +17,7 @@ class ProductsOperationTest extends TestCase
             $this->clnt,
             'products',
             [],
-            $this->createMock(\Kily\API\Evotor\Operations\Operation::class)
+            $this->createMock(\Kily\API\Evotor\Operations\StoresOperation::class)
         );
     }
 
@@ -34,6 +34,18 @@ class ProductsOperationTest extends TestCase
             'products',
             [],
             null
+        );
+        $this->productsOperation->run();
+    }
+
+    public function testException2()
+    {
+        $this->expectException(Exception::class);
+        $this->productsOperation = new ProductsOperation(
+            $this->clnt,
+            'products',
+            [],
+            $this->createMock(\Kily\API\Evotor\Operations\Operation::class)
         );
         $this->productsOperation->run();
     }

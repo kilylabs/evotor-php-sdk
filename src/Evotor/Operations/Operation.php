@@ -54,6 +54,9 @@ class Operation implements OperationInterface {
         if($this->id()) {
             throw new Exception('Operation '.__CLASS__.' does not require id');
         }
+        if($this->is_bulk) {
+            if(!isset($data[0])) $data = [$data];
+        }
         $this->data = $data;
         $req = $this->generateRequest('post',[$data,$options]);
         return $req->request();
@@ -63,16 +66,23 @@ class Operation implements OperationInterface {
         if(!in_array('put',$this->allowed_methods)) {
             throw new Exception('Operation '.__CLASS__.' does not support put() request method');
         }
-        if(is_array($id)) {
-            if(!$this->id()) {
-                throw new Exception('For operation '.__CLASS__.' you mustt supply id on update');
-            }
+        if($this->is_bulk) {
             $options = $data;
             $data = $id;
-            $id = $this->id();
-        }
-        if($id) {
-            $this->id($id);
+            $id = null;
+            if(!isset($data[0])) $data = [$data];
+        } else {
+            if(is_array($id)) {
+                if(!$this->id()) {
+                    throw new Exception('For operation '.__CLASS__.' you mustt supply id on update');
+                }
+                $options = $data;
+                $data = $id;
+                $id = $this->id();
+            }
+            if($id) {
+                $this->id($id);
+            }
         }
         $this->data = $data;
         $req = $this->generateRequest('put',[$data,$options]);
@@ -83,17 +93,26 @@ class Operation implements OperationInterface {
         if(!in_array('delete',$this->allowed_methods)) {
             throw new Exception('Operation '.__CLASS__.' does not support delete() request method');
         }
-        if(is_array($id)) {
-            if(!$this->id()) {
-                throw new Exception('For operation '.__CLASS__.' you mustt supply id on delete');
+        if($this->is_bulk) {
+            if(!isset($this->request_options['query'])) {
+                $this->request_options['query'] = [];
             }
-            $options = $id;
-            $id = $this->id();
+            if(!is_array($id)) $id = [$id];
+            $this->request_options['query']['id'] = implode(',',$id);;
+            $req = $this->generateRequest('delete',[null,$options]);
+        } else {
+            if(is_array($id)) {
+                if(!$this->id()) {
+                    throw new Exception('For operation '.__CLASS__.' you mustt supply id on delete');
+                }
+                $options = $id;
+                $id = $this->id();
+            }
+            if($id) {
+                $this->id($id);
+            }
+            $req = $this->generateRequest('delete',[$id,$options]);
         }
-        if($id) {
-            $this->id($id);
-        }
-        $req = $this->generateRequest('delete',[$id,$options]);
         return $req->request();
     }
 
@@ -124,6 +143,7 @@ class Operation implements OperationInterface {
         }
         $this->request_options['headers']['Content-Type'] = 'application/vnd.evotor.v2+bulk+json';
         $this->is_bulk = true;
+        return $this;
     }
 
     protected function generateRequest($name,$arguments) {
@@ -146,6 +166,7 @@ class Operation implements OperationInterface {
             $this->request_options['query'] = [];
         }
         $this->request_options['query']['limit'] = $cnt;
+        return $this;
     }
 
     public function getPath() {

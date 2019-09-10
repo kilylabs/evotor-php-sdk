@@ -3,6 +3,7 @@
 namespace Kily\API\Evotor;
 
 use Psr\Http\Message\ResponseInterface;
+use DusanKasan\Knapsack\Collection;
 
 class Response
 {
@@ -45,6 +46,10 @@ class Response
 
     public function first() {
         return $this->toArray()[0] ?? null;
+    }
+
+    public function __call($name,$arguments) {
+        return call_user_func_array([Collection::from($this->toArray()),$name],$arguments);
     }
 
 }

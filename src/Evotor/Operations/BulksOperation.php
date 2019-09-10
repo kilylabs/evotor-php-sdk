@@ -17,6 +17,13 @@ class BulksOperation extends Operation {
         return $this;
     }
 
+    protected function init($args) {
+        $id = $args[0] ?? null;
+        if($id) {
+            $this->id($id);
+        }
+    }
+
     public function id($id=false) {
         if($id === false) {
             return $this->id;
