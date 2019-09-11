@@ -23,6 +23,10 @@ class Response
         return $this->response->getBody()->__toString();
     }
 
+    public function getResponse() {
+        return $this->response;
+    }
+
     public function toArray() {
         if(!$this->arr) {
             $data = json_decode($this->response->getBody(),true);
