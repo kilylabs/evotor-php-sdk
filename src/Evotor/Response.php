@@ -53,7 +53,7 @@ class Response
     }
 
     public function __call($name,$arguments) {
-        return call_user_func_array([Collection::from($this->toArray()),$name],$arguments);
+        return call_user_func_array([Collection::from($this->toArray()?:[]),$name],$arguments);
     }
 
 }
