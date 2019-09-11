@@ -343,6 +343,18 @@ $bulk_id = $bulk['id'];
 // Получить пакетную задачу по id
 $bulk = $client->bulks()->get($bulk_id)->get()->toArray();
 var_dump($bulk);
+```
+
+#### Некоторые полезные методы
+```php
+// Итерация и маппинг результатов (используется библиотека https://github.com/DusanKasan/Knapsack)
+$list = $client->stores($store_id)->products()->get()->map(function($item){
+    return $item['id'];
+})->toArray();
+
+// Получить количество оставшихся запросов (X-Rate-Limit-Remaining)
+$data = $list = $client->stores($store_id)->products()->get();
+var_dump($data->getResponse()->getHeader('X-RateLimit-Remaining')[0]);
 
 
 ```
