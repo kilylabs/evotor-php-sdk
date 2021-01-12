@@ -30,9 +30,17 @@ class ProductsOperation extends Operation {
         if($id === false) {
             return $this->id;
         } else {
-            $this->id = $id;
+            if(is_array($id)) {
+                if(isset($id['id'])) $id['id'] = implode(',',$id['id']);
+            } else {
+                $this->id = $id;
+            }
             if($id) {
-                $this->path = str_replace('{store_id}',$this->prev_operation->id(),self::PATH).'/'.$id;
+                if(is_array($id)) {
+                    $this->path = str_replace('{store_id}',$this->prev_operation->id(),self::PATH).'?'.http_build_query($id);
+                } else {
+                    $this->path = str_replace('{store_id}',$this->prev_operation->id(),self::PATH).'/'.$id;
+                }
             } else {
                 $this->path = str_replace('{store_id}',$this->prev_operation->id(),self::PATH);
             }
