@@ -13,7 +13,7 @@ class DevicesOperation extends Operation {
 
     protected $id;
 
-    public function  run() {
+    public function  run(Operation $prev = null) {
         return $this;
     }
 

@@ -13,7 +13,7 @@ class StoresOperation extends Operation {
     protected $allowed_methods = ['get'];
     protected $id = null;
 
-    public function  run() {
+    public function  run(Operation $prev = null) {
         return $this;
     }
 
