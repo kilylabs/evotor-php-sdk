@@ -9,7 +9,7 @@ class EmployeesOperationTest extends TestCase
     /** @var EmployeesOperation */
     private $employeesOperation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clnt = $this->createMock(\Kily\API\Evotor\Client::class);
         $this->employeesOperation = new EmployeesOperation(

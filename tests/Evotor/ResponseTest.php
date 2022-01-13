@@ -18,7 +18,7 @@ class ResponseTest extends TestCase
     /** @var mixed */
     private $filter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $streamStub = $this->createMock(\Psr\Http\Message\StreamInterface::class);
         $streamStub->expects($this->any())

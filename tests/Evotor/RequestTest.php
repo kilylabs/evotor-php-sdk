@@ -19,7 +19,7 @@ class RequestTest extends TestCase
     /** @var array */
     private $arguments;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this->createMock(\Kily\API\Evotor\Client::class);
         $this->name = 'post';

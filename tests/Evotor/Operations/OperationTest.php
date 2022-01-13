@@ -21,7 +21,7 @@ class OperationTest extends TestCase
     /** @var Kily\API\Evotor\Operations\Operation | PHPUnit_Framework_MockObject_MockObject */
     private $op;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this->createMock(\Kily\API\Evotor\Client::class);
         $this->name = '';

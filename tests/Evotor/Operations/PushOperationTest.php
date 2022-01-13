@@ -9,7 +9,7 @@ class PushOperationTest extends TestCase
     /** @var PushOperation */
     private $pushOperation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
 //        $this->pushOperation = new PushOperation();
     }

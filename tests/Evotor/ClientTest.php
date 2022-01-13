@@ -19,7 +19,7 @@ class ClientTest extends TestCase
     /** @var array */
     private $options;
 
-    protected function setUp()
+    protected function setUp():void
     {
         if(!isset($_SERVER['API_KEY'])) {
             $this->markTestSkipped(

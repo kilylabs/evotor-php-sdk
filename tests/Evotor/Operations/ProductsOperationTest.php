@@ -10,7 +10,7 @@ class ProductsOperationTest extends TestCase
     /** @var ProductsOperation */
     private $productsOperation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clnt = $this->createMock(\Kily\API\Evotor\Client::class);
         $this->productsOperation = new ProductsOperation(

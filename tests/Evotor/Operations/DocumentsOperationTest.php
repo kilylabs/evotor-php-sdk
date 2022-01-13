@@ -10,7 +10,7 @@ class DocumentsOperationTest extends TestCase
     /** @var DocumentsOperation */
     private $documentsOperation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clnt = $this->createMock(\Kily\API\Evotor\Client::class);
         $this->documentsOperation = new DocumentsOperation(

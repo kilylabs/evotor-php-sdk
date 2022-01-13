@@ -10,7 +10,7 @@ class DeviceOperationTest extends TestCase
     /** @var DeviceOperation */
     private $deviceOperation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clnt = $this->createMock(\Kily\API\Evotor\Client::class);
         $this->deviceOperation = new DeviceOperation(

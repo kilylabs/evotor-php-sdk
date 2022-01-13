@@ -11,7 +11,7 @@ class BulksOperationTest extends TestCase
     /** @var BulksOperation */
     private $bulksOperation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clnt = $this->createMock(\Kily\API\Evotor\Client::class);
         $this->bulksOperation = new BulksOperation(

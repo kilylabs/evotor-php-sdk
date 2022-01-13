@@ -9,7 +9,7 @@ class ExceptionTest extends TestCase
     /** @var Exception */
     private $exception;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->exception = new Exception();
     }

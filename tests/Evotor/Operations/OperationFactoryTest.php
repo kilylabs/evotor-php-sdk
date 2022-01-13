@@ -12,7 +12,7 @@ class OperationFactoryTest extends TestCase
     /** @var OperationFactory */
     private $clnt = null;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clnt = $this->createMock(\Kily\API\Evotor\Client::class);
     }

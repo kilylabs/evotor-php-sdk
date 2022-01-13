@@ -11,7 +11,7 @@ class StoresOperationTest extends TestCase
     /** @var StoresOperation */
     private $storesOperation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clnt = $this->createMock(\Kily\API\Evotor\Client::class);
         $this->storesOperation = new StoresOperation(
