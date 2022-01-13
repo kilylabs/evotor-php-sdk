@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kily\API\Evotor;
 
@@ -41,17 +43,19 @@ class ResponseTest extends TestCase
         );
     }
 
-    public function test__toString() {
+    public function test__toString()
+    {
         $this->assertTrue(is_string($this->response->__toString()));
     }
 
-    public function testToArray() {
-        $this->assertTrue(is_array(json_decode($this->response->__toString(),true)));
-        $this->assertTrue($this->response->toArray() === json_decode($this->response->__toString(),true)['items']);
+    public function testToArray()
+    {
+        $this->assertTrue(is_array(json_decode($this->response->__toString(), true)));
+        $this->assertTrue($this->response->toArray() === json_decode($this->response->__toString(), true)['items']);
     }
 
-    public function testFirst() {
+    public function testFirst()
+    {
         $this->assertTrue(($this->response->first()) == ['id'=>'123']);
     }
-
 }

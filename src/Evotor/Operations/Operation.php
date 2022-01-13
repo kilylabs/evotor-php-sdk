@@ -6,8 +6,8 @@ use Kily\API\Evotor\Client;
 use Kily\API\Evotor\Exception;
 use Kily\API\Evotor\Request;
 
-class Operation implements OperationInterface {
-
+class Operation implements OperationInterface
+{
     protected $client;
     protected $name;
 
@@ -21,7 +21,8 @@ class Operation implements OperationInterface {
     protected $prev_operation = null;
     protected $is_bulk = false;
 
-    public function __construct(Client $client, string $name, array $arguments, Operation $op = null) {
+    public function __construct(Client $client, string $name, array $arguments, Operation $op = null)
+    {
         $this->client = $client;
         $this->name = $name;
         $this->prev_operation = $op;
@@ -29,96 +30,110 @@ class Operation implements OperationInterface {
         $this->init($arguments);
     }
 
-    protected function init($arguments) {
+    protected function init($arguments)
+    {
     }
 
-    public function run(Operation $prev = null) {
+    public function run(Operation $prev = null)
+    {
         throw new Exception('This should be overriden');
     }
 
-    public function get($id=null,$options = []) {
-        if(!in_array('get',$this->allowed_methods)) {
+    public function get($id=null, $options = [])
+    {
+        if (!in_array('get', $this->allowed_methods)) {
             throw new Exception('Operation '.__CLASS__.' does not support get() request method');
         }
-        if($id) {
+        if ($id) {
             $this->id($id);
         }
-        $req = $this->generateRequest('get',[$id,$options]);
+        $req = $this->generateRequest('get', [$id,$options]);
         return $req->request();
     }
 
-    public function create($data,$options = []) {
-        if(!in_array('post',$this->allowed_methods)) {
+    public function create($data, $options = [])
+    {
+        if (!in_array('post', $this->allowed_methods)) {
             throw new Exception('Operation '.__CLASS__.' does not support post() request method');
         }
-        if($this->id()) {
+        if ($this->id()) {
             throw new Exception('Operation '.__CLASS__.' does not require id');
         }
-        if($this->is_bulk) {
-            if(!isset($data[0])) $data = [$data];
+        if ($this->is_bulk) {
+            if (!isset($data[0])) {
+                $data = [$data];
+            }
         }
         $this->data = $data;
-        $req = $this->generateRequest('post',[$data,$options]);
+        $req = $this->generateRequest('post', [$data,$options]);
         return $req->request();
     }
 
-    public function update($id,$data = null,$options = []) {
-        if(!in_array('put',$this->allowed_methods)) {
+    public function update($id, $data = null, $options = [])
+    {
+        if (!in_array('put', $this->allowed_methods)) {
             throw new Exception('Operation '.__CLASS__.' does not support put() request method');
         }
-        if($this->is_bulk) {
+        if ($this->is_bulk) {
             $options = $data;
             $data = $id;
             $id = null;
-            if(!isset($data[0])) $data = [$data];
+            if (!isset($data[0])) {
+                $data = [$data];
+            }
         } else {
-            if(is_array($id)) {
-                if(!$this->id()) {
+            if (is_array($id)) {
+                if (!$this->id()) {
                     throw new Exception('For operation '.__CLASS__.' you mustt supply id on update');
                 }
                 $options = $data;
                 $data = $id;
                 $id = $this->id();
             }
-            if($id) {
+            if ($id) {
                 $this->id($id);
             }
         }
         $this->data = $data;
-        $req = $this->generateRequest('put',[$data,$options]);
+        $req = $this->generateRequest('put', [$data,$options]);
         return $req->request();
     }
 
-    public function delete($id=null,$options = []) {
-        if(!in_array('delete',$this->allowed_methods)) {
+    public function delete($id=null, $options = [])
+    {
+        if (!in_array('delete', $this->allowed_methods)) {
             throw new Exception('Operation '.__CLASS__.' does not support delete() request method');
         }
-        if($this->is_bulk) {
-            if(!isset($this->request_options['query'])) {
+        if ($this->is_bulk) {
+            if (!isset($this->request_options['query'])) {
                 $this->request_options['query'] = [];
             }
-            if(!is_array($id)) $id = [$id];
-            $this->request_options['query']['id'] = implode(',',$id);;
-            $req = $this->generateRequest('delete',[null,$options]);
+            if (!is_array($id)) {
+                $id = [$id];
+            }
+            $this->request_options['query']['id'] = implode(',', $id);
+            ;
+            $req = $this->generateRequest('delete', [null,$options]);
         } else {
-            if(is_array($id)) {
-                if(!$this->id()) {
+            if (is_array($id)) {
+                if (!$this->id()) {
                     throw new Exception('For operation '.__CLASS__.' you mustt supply id on delete');
                 }
                 $options = $id;
                 $id = $this->id();
             }
-            if($id) {
+            if ($id) {
                 $this->id($id);
             }
-            $req = $this->generateRequest('delete',[$id,$options]);
+            $req = $this->generateRequest('delete', [$id,$options]);
         }
         return $req->request();
     }
 
-    public function fetchUpdate($id,$data = null, $options = []) {
-        if(is_array($id)) {
-            if(!$this->id()) {
+    public function fetchUpdate($id, $data = null, $options = [])
+    {
+        if (is_array($id)) {
+            if (!$this->id()) {
                 throw new Exception('For operation '.__CLASS__.' you mustt supply id on update');
             }
             $options = $data;
@@ -126,19 +141,20 @@ class Operation implements OperationInterface {
             $id = $this->id();
         }
         $g_data = $this->get($id);
-        if($g_data && ($g_data = $g_data->toArray()) && isset($g_data['id'])) {
+        if ($g_data && ($g_data = $g_data->toArray()) && isset($g_data['id'])) {
             unset($g_data['id']);
             unset($g_data['created_at']);
             unset($g_data['updated_at']);
-            $data = array_merge($g_data,$data);
-            return $this->update($id,$data,$options);
+            $data = array_merge($g_data, $data);
+            return $this->update($id, $data, $options);
         } else {
             return $g_data;
         }
     }
 
-    public function bulk() {
-        if(!isset($this->request_options['headers'])) {
+    public function bulk()
+    {
+        if (!isset($this->request_options['headers'])) {
             $this->request_options['headers'] = [];
         }
         $this->request_options['headers']['Content-Type'] = 'application/vnd.evotor.v2+bulk+json';
@@ -146,14 +162,16 @@ class Operation implements OperationInterface {
         return $this;
     }
 
-    protected function generateRequest($name,$arguments) {
-        $req = Request::fromName($this->client,$name,$arguments,$this->generateRequestData($name,$arguments));
+    protected function generateRequest($name, $arguments)
+    {
+        $req = Request::fromName($this->client, $name, $arguments, $this->generateRequestData($name, $arguments));
         return $req;
     }
 
-    protected function generateRequestData($name,$arguments) {
+    protected function generateRequestData($name, $arguments)
+    {
         $data = [
-            'uri'=>$this->path_parts ? implode('/',$this->path_parts) : $this->path,
+            'uri'=>$this->path_parts ? implode('/', $this->path_parts) : $this->path,
             'data'=>$this->data,
             'type'=>$this->type,
             'options'=>$this->request_options,
@@ -161,18 +179,17 @@ class Operation implements OperationInterface {
         return $data;
     }
 
-    public function limit($cnt) {
-        if(!isset($this->request_options['query'])) {
+    public function limit($cnt)
+    {
+        if (!isset($this->request_options['query'])) {
             $this->request_options['query'] = [];
         }
         $this->request_options['query']['limit'] = $cnt;
         return $this;
     }
 
-    public function getPath() {
+    public function getPath()
+    {
         return $this->path;
     }
-
 }
-
-

@@ -13,23 +13,27 @@ class Response
 
     private $arr;
 
-    public function __construct(Client $clnt, ResponseInterface $resp, $filter = null) {
+    public function __construct(Client $clnt, ResponseInterface $resp, $filter = null)
+    {
         $this->client = $clnt;
         $this->response = $resp;
         $this->filter = $filter;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->response->getBody()->__toString();
     }
 
-    public function getResponse() {
+    public function getResponse()
+    {
         return $this->response;
     }
 
-    public function toArray() {
-        if(!$this->arr) {
-            $data = json_decode($this->response->getBody(),true);
+    public function toArray()
+    {
+        if (!$this->arr) {
+            $data = json_decode($this->response->getBody(), true);
             $this->arr = $data['items'] ?? $data;
         }
         /*
@@ -48,12 +52,13 @@ class Response
         return $this->arr;
     }
 
-    public function first() {
+    public function first()
+    {
         return $this->toArray()[0] ?? null;
     }
 
-    public function __call($name,$arguments) {
-        return call_user_func_array([Collection::from($this->toArray()?:[]),$name],$arguments);
+    public function __call($name, $arguments)
+    {
+        return call_user_func_array([Collection::from($this->toArray() ?: []),$name], $arguments);
     }
-
 }

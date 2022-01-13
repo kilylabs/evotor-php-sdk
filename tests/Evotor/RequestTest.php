@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kily\API\Evotor;
 
@@ -31,7 +33,8 @@ class RequestTest extends TestCase
         );
     }
 
-    public function testFromName() {
+    public function testFromName()
+    {
         $req = Request::fromName($this->client, 'gEt', [], []);
         $this->assertTrue($req instanceof Request);
         $this->assertTrue($req->name === 'get');
@@ -50,7 +53,8 @@ class RequestTest extends TestCase
         $this->assertTrue($req->rname === 'bulk');
     }
 
-    public function testRequest() {
+    public function testRequest()
+    {
         $this->markTestSkipped("To be done");
     }
 }

@@ -2,4 +2,6 @@
 
 namespace Kily\API\Evotor;
 
-class Exception extends \Exception {}
+class Exception extends \Exception
+{
+}

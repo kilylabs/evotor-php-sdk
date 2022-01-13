@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kily\API\Evotor\Operations;
 
@@ -20,11 +22,11 @@ class OperationFactoryTest extends TestCase
     public function testFromNameBad()
     {
         $this->expectException(Exception::class);
-        OperationFactory::fromName($this->clnt,'_nonexistent_',[]);
+        OperationFactory::fromName($this->clnt, '_nonexistent_', []);
     }
 
     public function testFromNameGood()
     {
-        $this->assertTrue(OperationFactory::fromName($this->clnt,'stores',[]) instanceof Operation);
+        $this->assertTrue(OperationFactory::fromName($this->clnt, 'stores', []) instanceof Operation);
     }
 }

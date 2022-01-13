@@ -10,7 +10,6 @@ use Kily\API\Evotor\Operations\OperationFactory;
 
 class Client
 {
-
     protected $api_key;
     protected $app_key;
 
@@ -29,7 +28,8 @@ class Client
 
     protected $is_called = false;
 
-    public function __construct($api_key,$app_key='',$options=[]) {
+    public function __construct($api_key, $app_key='', $options=[])
+    {
         $this->api_key = $api_key;
         $this->app_key = $app_key;
         $this->client = new Guzzle(array_replace_recursive([
@@ -42,10 +42,11 @@ class Client
                 //'X-Authorization'=>$this->api,
                 'Authorization'=>'bearer '.$this->api_key,
             ],
-        ],$options));
+        ], $options));
     }
 
-    public function _request($method,$uri,$data,$filter = null) {
+    public function _request($method, $uri, $data, $filter = null)
+    {
         $resp = null;
 
         $this->http_code = null;
@@ -56,10 +57,10 @@ class Client
         $options = $data;
 
         try {
-            $resp = $this->client->request($method,$uri,$options);
-        } catch(TransferException $e) {
-            if($e instanceof TransferException) {
-                if($e->hasResponse() && ($resp = $e->getResponse()) ) {
+            $resp = $this->client->request($method, $uri, $options);
+        } catch (TransferException $e) {
+            if ($e instanceof TransferException) {
+                if ($e->hasResponse() && ($resp = $e->getResponse())) {
                     $this->http_code = $resp->getStatusCode();
                     $this->http_message = $resp->getReasonPhrase();
                 } else {
@@ -71,7 +72,7 @@ class Client
                 $this->http_message = $e->getMessage();
                 return null;
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->http_code = 0;
             $this->http_message = 'Library error';
         } finally {
@@ -79,42 +80,50 @@ class Client
             $this->http_message = $resp->getReasonPhrase();
         }
 
-        $this->response = new Response($this,$resp,$filter);
+        $this->response = new Response($this, $resp, $filter);
         $this->requested = [];
 
         return $this->response;
     }
 
-    public function getClient() {
+    public function getClient()
+    {
         return $this->client;
     }
 
-    public function __call($name,$arguments=[]) {
-        $op = OperationFactory::fromName($this,$name,$arguments);
+    public function __call($name, $arguments=[])
+    {
+        $op = OperationFactory::fromName($this, $name, $arguments);
         return $op->run();
     }
 
-    public function getHttpErrorMessage() {
+    public function getHttpErrorMessage()
+    {
         return $this->http_message;
     }
 
-    public function getHttpErrorCode() {
+    public function getHttpErrorCode()
+    {
         return $this->http_code;
     }
 
-    public function getErrorMessage() {
+    public function getErrorMessage()
+    {
         return $this->error_message;
     }
 
-    public function getErrorCode() {
+    public function getErrorCode()
+    {
         return $this->error_code;
     }
 
-    public function isOk() {
-        return strpos((string)$this->http_code,'2') === 0;
+    public function isOk()
+    {
+        return strpos((string)$this->http_code, '2') === 0;
     }
 
-    public function getAppKey() {
+    public function getAppKey()
+    {
         return $this->app_key;
     }
 }

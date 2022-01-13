@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kily\API\Evotor\Operations;
 
@@ -33,32 +35,38 @@ class StoresOperationTest extends TestCase
         $this->assertTrue($this->storesOperation->id() === "123");
     }
 
-    public function testProductsBad() {
+    public function testProductsBad()
+    {
         $this->expectException(Exception::class);
         $this->storesOperation->products();
     }
 
-    public function testProductsGood() {
+    public function testProductsGood()
+    {
         $this->storesOperation->id("123");
         $this->assertTrue($this->storesOperation->products() instanceof ProductsOperation);
     }
 
-    public function testDocumentsBad() {
+    public function testDocumentsBad()
+    {
         $this->expectException(Exception::class);
         $this->storesOperation->documents();
     }
 
-    public function testDocumentsGood() {
+    public function testDocumentsGood()
+    {
         $this->storesOperation->id("123");
         $this->assertTrue($this->storesOperation->documents() instanceof DocumentsOperation);
     }
 
-    public function testGroupsBad() {
+    public function testGroupsBad()
+    {
         $this->expectException(Exception::class);
         $this->storesOperation->groups();
     }
 
-    public function testGroupsGood() {
+    public function testGroupsGood()
+    {
         $this->storesOperation->id("123");
         $this->assertTrue($this->storesOperation->groups() instanceof GroupsOperation);
     }
