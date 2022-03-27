@@ -59,7 +59,7 @@ class Client
         try {
             $resp = $this->client->request($method, $uri, $options);
         } catch (TransferException $e) {
-            if ($e instanceof TransferException) {
+            if ($e instanceof RequestException) {
                 if ($e->hasResponse() && ($resp = $e->getResponse())) {
                     $this->http_code = $resp->getStatusCode();
                     $this->http_message = $resp->getReasonPhrase();
@@ -76,8 +76,10 @@ class Client
             $this->http_code = 0;
             $this->http_message = 'Library error';
         } finally {
-            $this->http_code = $resp->getStatusCode();
-            $this->http_message = $resp->getReasonPhrase();
+            if($resp) {
+                $this->http_code = $resp->getStatusCode();
+                $this->http_message = $resp->getReasonPhrase();
+            }
         }
 
         $this->response = new Response($this, $resp, $filter);
