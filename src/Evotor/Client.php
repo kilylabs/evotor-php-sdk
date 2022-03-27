@@ -76,7 +76,7 @@ class Client
             $this->http_code = 0;
             $this->http_message = 'Library error';
         } finally {
-            if($resp) {
+            if ($resp) {
                 $this->http_code = $resp->getStatusCode();
                 $this->http_message = $resp->getReasonPhrase();
             }

@@ -200,8 +200,8 @@ class ClientTest extends TestCase
     public function test_request()
     {
         $resp = $this->client->_request('get', '_nonexistent_', []);
-        $this->assertEquals('Not Found',$this->client->getHttpErrorMessage());
-        $this->assertEquals(404,$this->client->getHttpErrorCode());
+        $this->assertEquals('Not Found', $this->client->getHttpErrorMessage());
+        $this->assertEquals(404, $this->client->getHttpErrorCode());
     }
 
     public function testGetClient()
